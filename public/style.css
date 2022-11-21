@@ -1,1 +1,49 @@
-/*empty*/
+div {
+    display: inline-block;
+    padding: 20px;
+    margin: 0px;
+    border: dotted beige;
+}
+
+img{
+    width: 400px;
+    height: 275px;
+}
+
+button img{
+    width: 80px;
+    height: 40px;
+}
+
+body {
+    font-family: arial;
+    margin: 50px;
+    background-image: url("https://images.photowall.com/products/47977/new-york-skyline-1.jpg?h=699&q=85");
+    background-color: #cccccc;
+ }
+
+.classburgers {
+    font-weight: bold;
+    color: blueviolet;
+}
+ 
+ #classburgers {
+    text-transform: uppercase;
+ }
+
+input[type="radio"] {
+    height: .7em;
+    width: .7em;
+}
+
+button:hover {
+    background-color: grey;
+}
+
+nav {
+    margin: 5px;
+}
+
+h2 {
+    color: beige;
+}
