@@ -20,7 +20,7 @@
   
   <script>
   export default {
-    name: 'Burger',
+    name: 'OneBurger',
     props: {
       burger: Object
     },
@@ -34,13 +34,13 @@
     methods: {
       increase: function(){
         this.amountOrdered++;
-        this.$emit('Orderedburgers', {name: this.burger.name, amount: this.amountOrdered});
+        this.$emit('orderedBurgers', {name: this.burger.name, amount: this.amountOrdered});
       },
       decrease: function(){
-        if (this.burger.amountOrdered < 0){
+        if ((this.burger.amountOrdered > 0)) {
           this.amountOrdered--;
         }
-        this.$emit('Orderedburgers', {name: this.burger.name, amount: this.amountOrdered});
+        this.$emit('orderedBurgers', {name: this.burger.name, amount: this.amountOrdered});
       }
     }
   }

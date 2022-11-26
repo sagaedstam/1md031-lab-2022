@@ -13,7 +13,7 @@
               <Burger v-for="burger in burgers"
                 v-bind:burger="burger" 
                 v-bind:key="burger.name"
-                v-on:orderedBurgers="addOrder($event)"/>
+                v-on:orderedBurgers="addToOrder($event)"/>
               </div>
             </section>
     
@@ -35,6 +35,16 @@
             <input type="text" id="housenumber" v-model="housenumber" required="required" placeholder="House number">
         </p>
         <p>
+          <div id="mapbox">
+            <div id="map" v-on:click="setLocation">
+              click here
+              <div id="dots"> <div v-bind:style="{left: location.x + 'px', top:location.y + 'px'}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </p>
+        <p>
                 <label for="payment">Payment Options</label><br>
                     <select id="payment" v-model="pay">
                         <option>Credit Card</option>
@@ -53,14 +63,15 @@
                 <input type="radio" id="gender4" v-model="gender" value="Undisclosed">
                 <label for="gender4">Undisclosed</label><br>
         </p>
-        <div type="submit">
-          <button v-on:click="markDone(key)">
-                <img class="button_img" src="https://educaora.com/api/editors/6176786d68d9913b4bb2739c/published-files/image_button.png" alt="Send Info">
-          </button>
-        </div>
-    <hr>
-    <footer>Edstam Inc.</footer>
+
     </main>
+    <div>
+      <button id="orders" v-on:click="submit()">
+        <img class="button_img" src="https://educaora.com/api/editors/6176786d68d9913b4bb2739c/published-files/image_button.png" alt="Send Info">
+      </button>
+    </div>
+    <hr>
+    <footer>&copy Edstam Inc.</footer>
    </body>
 </template>
 
@@ -89,6 +100,7 @@ export default {
   components: {
     Burger
   },
+
   data: function () {
     return {
       burgers: menu,
@@ -96,8 +108,10 @@ export default {
       email: '',
       streetname: '',
       housenumber: '',
+      location: {x:0,y:0},
       pay: '',
       gender: '',
+      orderedBurgers: {},
       
                 //[ {name: "small burger", kCal: 250},
                  //{name: "standard burger", kCal: 450},
@@ -109,8 +123,26 @@ export default {
     getOrderNumber: function () {
       return Math.floor(Math.random()*100000);
     },
-    addOrder: function (event) {
+
+    submit: function() {
+      console.log( this.fullname, this.email, this.streetname, this.housenumber, this.location, this.pay, this.gender, this.orderedBurgers);
+      socket.emit("addOrder", { 
+        orderId: this.getOrderNumber(),
+          details: {x: this.location.x, y:this.location.y},
+          Name: this.fullname, 
+          Email: this.email, 
+          Street: this.streetname, 
+          HouseNumber: this.housenumber, 
+          Payment: this.pay, 
+          Gender: this.gender, 
+          orderItems: this.orderedBurgers});
+    },
+
+    addToOrder: function (event) {
       this.orderedBurgers[event.name] = event.amount; 
+      console.log("event:", event);
+      console.log("event.fullname:", event.name);
+      console.log("event.amount: " + event.amount);
       
       /*var offset = {x: event.currentTarget.getBoundingClientRect().left,
                     y: event.currentTarget.getBoundingClientRect().top};
@@ -122,17 +154,52 @@ export default {
                  );*/
     },
 
-    markDone:function() {
-      console.log( this.orderedBurgers );
-      socket.emit("addOrder", { orderId: this.getOrderNumber(),
-        details: {Name: this.fullname, Email: this.email, Street: this.streetname, HouseNumber: this.housenumber, Payment: this.pay, Gender: this.gender}, orderItems: this.orderedBurgers});
-    }
+    setLocation: function (event) {
+      this.orderedBurgers[event.name] = event.amount; 
+      console.log("event.amount: " + event.amount);
+      var offset = {x: event.currentTarget.getBoundingClientRect().left,
+                    y: event.currentTarget.getBoundingClientRect().top};
+      this.location = {x: event.clientX - 10 - offset.x,
+                        y: event.clientY - 10 - offset.y}
+         }
+
   }
 }
 
 </script>
 
 <style>
+
+#dots{
+    position: absolute;
+    background: black;
+    color: white;
+    border-radius: 10px;
+    width:20px;
+    height:20px;
+    text-align: center;
+  }
+#map {
+  width: 1200px;
+  height: 1000px;
+  position: relative;
+  background-image: url('../../public/img/polacks.jpg');
+}
+
+#mapbox {
+  overflow: scroll;
+  width: 1200px;
+  height: 400px;
+  border-style: solid;
+}
+
+#map>div {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+}
+
 div {
     padding: 10px 10px 10px 10px;
     margin: 10px 10px 10px 10px;
