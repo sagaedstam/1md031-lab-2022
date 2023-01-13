@@ -1,0 +1,25 @@
+[
+    {
+    "name": "The Fire Burger",
+    "kCal": 300,
+    "url": "https://static.cdn-expressen.se/images/ed/79/ed7990bd913c4ecaa07cdb9d76aef545/16x9/1920@80.jpg",
+    "lactose": false,
+    "gluten": true
+    },
+
+    {
+    "name": "Chicken Burger",
+    "kCal": 400,
+    "url": "https://cdn.shopify.com/s/files/1/0594/0409/1572/articles/Turkey-Burgers-with-Lemon-Mayo-Fire-and-Smoke-Society_1024x1024.jpg?v=1652363003",
+    "lactose": true,
+    "gluten": true
+    },
+
+    {
+    "name": "Double Cheese Burger",
+    "kCal": 500,
+    "url": "https://assets.epicurious.com/photos/5c745a108918ee7ab68daf79/master/pass/Smashburger-recipe-120219.jpg",
+    "lactose": false,
+    "gluten": false    
+    }
+  ]
